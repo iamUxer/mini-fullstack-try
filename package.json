@@ -1,0 +1,25 @@
+{
+  "name": "mini-fullstack-try",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm run start",
+    "backend": "cd server && npm run server",
+    "dev": "concurrently \"npm run backend\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iamUxer/mini-fullstack-try.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iamUxer/mini-fullstack-try/issues"
+  },
+  "homepage": "https://github.com/iamUxer/mini-fullstack-try#readme",
+  "dependencies": {
+    "concurrently": "^6.4.0"
+  }
+}
