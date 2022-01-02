@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const NewProduct = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const NewProduct = () => {
 
   const handleAdd = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/products/", {
+    fetch(`${SERVER_URL}/products/`, {
       method: "POST",
       body: JSON.stringify(values),
       headers: {
@@ -25,7 +26,6 @@ const NewProduct = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, "data");
         navigate(`/products/${data.id}`);
       });
   };

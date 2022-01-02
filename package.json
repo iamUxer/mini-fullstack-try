@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/iamUxer/mini-fullstack-try#readme",
   "dependencies": {
-    "concurrently": "^6.4.0"
+    "concurrently": "^6.4.0",
+    "lowdb": "^3.0.0"
   }
 }

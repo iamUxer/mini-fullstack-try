@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
+const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const EditProduct = () => {
     year: 0,
   });
   useEffect(() => {
-    fetch(`http://localhost:8080/products/${id}`)
+    fetch(`${SERVER_URL}/products/${id}`)
       .then((res) => res.json())
       .then((data) => setValues(data))
       .catch((err) => console.log(err));
@@ -26,7 +27,7 @@ const EditProduct = () => {
   };
 
   const handleApply = (e) => {
-    fetch(`http://localhost:8080/products/${id}`, {
+    fetch(`${SERVER_URL}/products/${id}`, {
       method: "PUT",
       body: JSON.stringify(values),
       headers: {

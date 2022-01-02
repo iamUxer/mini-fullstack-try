@@ -1,0 +1,36 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "diablo",
+      "price": 30000,
+      "year": 2002
+    },
+    {
+      "id": 2,
+      "name": "starcraft",
+      "price": 40000,
+      "year": 2001
+    },
+    {
+      "id": 3,
+      "name": "supermario",
+      "price": 42000,
+      "year": 1990
+    },
+    {
+      "id": 4,
+      "name": "dream of house",
+      "price": 0,
+      "year": 2019
+    }
+  ],
+  "users": [
+    {
+      "id": "a1234",
+      "name": "yuri",
+      "nickname": "lucky",
+      "email": "yulrhymz@gmail.com"
+    }
+  ]
+}
