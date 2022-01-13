@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Input, Button, Modal } from "antd";
 import { UserContext } from "../../App";
+import AuthModal from "../modal";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const Login = () => {
   const [userInfo, setUserInfo] = useContext(UserContext);
+  // 2) 유저정보가 업데이트 되면 리랜더링이 일어나고 커스텀 훅(UserContext)이 실행된다.
   const [user, setUser] = useState("");
-  //   const [userInfo, setUserInfo] = useLocalStorage("user");
-  // 2) 유저정보가 업데이트 되면 리랜더링이 일어나고 커스텀 훅이 실행된다.
   const [error, setError] = useState(null);
+  console.log("error!!", error);
 
   useEffect(() => {
     if (!userInfo.id) {
@@ -27,31 +29,41 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         setUserInfo(data);
-        console.log(data);
-        // 1) 클릭했을때, 유저정보가 업데이트 되고
+        // 1) 클릭했을때, 서버에서 넘어온 유저정보가 업데이트 되고
       })
       .catch((error) => setError(error.message));
+    // 여기서 에러는 무엇일까?
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
   };
 
   return (
     <>
       {!!userInfo.id && <div>{userInfo.name}, Welcome!</div>}
       {!userInfo.id && (
-        <div>
-          <input
+        <>
+          <Input
             type="text"
             value={user}
             onChange={(e) => setUser(e.target.value)}
             placeholder="User ID"
+            onKeyDown={handleKeyDown}
           />
-          <button onClick={handleLogin}>Login</button>
-        </div>
+          <Button onClick={handleLogin} type="submit">
+            Login
+          </Button>
+        </>
       )}
-      {!!userInfo.message || error ? (
-        <h2 style={{ color: "red" }}>
+
+      <AuthModal title="Login Error" visible={userInfo}>
+        <p style={{ color: "red" }}>
           {userInfo.message} {error}
-        </h2>
-      ) : null}
+        </p>
+      </AuthModal>
     </>
   );
 };

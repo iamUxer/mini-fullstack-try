@@ -11,6 +11,8 @@ const Product = () => {
   useEffect(() => {
     fetch(`${SERVER_URL}/products/${id}`)
       .then((res) => res.json())
+      //fetch API의 응답(response) 객체는json()를 제공하고 있어JSON.parse() 대신 사용할 수 있다.
+      //response.json()메서드를 호출하면 JSON 데이터를 javascript 객체로 변환한다.
       .then((data) => setProduct(data))
       .catch((err) => console.log(err));
   }, [id]);

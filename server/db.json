@@ -31,6 +31,20 @@
       "name": "yuri",
       "nickname": "lucky",
       "email": "yulrhymz@gmail.com"
+    },
+    {
+      "id": "b1234",
+      "name": "구유리",
+      "nickname": "귤귤귤",
+      "email": "yulrhymz@gmail.com"
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "sellerId": "a1234",
+      "buyerId": null,
+      "productId": 3
     }
   ]
 }

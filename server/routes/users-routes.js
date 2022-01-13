@@ -10,6 +10,18 @@ router.post("/users", function (req, res) {
   const { id, nickname, name, email } = req.body;
   const userInfo = users.find((user) => user.id === id);
 
+  if (!userInfo) {
+    res.status(401).send({ message: `This ID : "${id}" is not found` });
+  } else {
+    res.send(userInfo);
+  }
+});
+
+//User Detail
+router.get("/users/:id", function (req, res) {
+  const id = req.params.id;
+  const userInfo = users.find((user) => user.id === id);
+
   if (userInfo) {
     res.send(userInfo);
   } else {

@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
+import { Button } from "antd";
 
 const Logout = ({ setUserInfo }) => {
   return (
     <>
-      <button onClick={() => setUserInfo({})}>Logout</button>
+      <Button onClick={() => setUserInfo({})}>Logout</Button>
     </>
   );
 };

@@ -15,7 +15,7 @@ router.get("/products/:id", function (req, res) {
   const id = parseInt(req.params.id);
   const product = products.find((prd) => prd.id === id);
   if (product) {
-    res.send(product);
+    res.json(product);
   } else {
     res.send({ message: `${id} is not existed` });
   }
