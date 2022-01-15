@@ -13,7 +13,7 @@ router.post("/users", function (req, res) {
   if (!userInfo) {
     res.status(401).send({ message: `This ID : "${id}" is not found` });
   } else {
-    res.send(userInfo);
+    res.json(userInfo);
   }
 });
 
@@ -23,7 +23,7 @@ router.get("/users/:id", function (req, res) {
   const userInfo = users.find((user) => user.id === id);
 
   if (userInfo) {
-    res.send(userInfo);
+    res.json(userInfo);
   } else {
     res.status(401).send({ message: `${id} not found` });
   }
@@ -44,7 +44,7 @@ router.post("/users/new", function (req, res) {
     } else {
       users.push({ ...newUser });
       db.write();
-      res.send(newUser);
+      res.json(newUser);
     }
   }
 });

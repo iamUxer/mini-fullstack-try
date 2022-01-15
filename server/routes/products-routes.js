@@ -7,7 +7,7 @@ const router = express.Router();
 
 //products Api 생성
 router.get("/products", function (req, res) {
-  res.send(products);
+  res.json(products);
 });
 
 //detail page
@@ -33,7 +33,7 @@ router.post("/products", function (req, res) {
   };
   products.push(newProduct);
   db.write();
-  res.send({ id });
+  res.json({ id });
 });
 
 //edit item
@@ -50,7 +50,7 @@ router.put("/products/:id", function (req, res) {
       year,
     };
     db.write();
-    res.send({ id });
+    res.json({ id });
   } else {
     res.send({ message: `id: ${id} is not existed ` });
   }
@@ -63,7 +63,7 @@ router.delete("/products/:id", function (req, res) {
   if (productIndex !== undefined) {
     products.splice(productIndex, 1);
     db.write();
-    res.send(products);
+    res.json(products);
   } else {
     res.send({ message: `id: ${id} is not existed` });
   }

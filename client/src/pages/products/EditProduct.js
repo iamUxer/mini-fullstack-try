@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
+import { ApiClient } from "../../utils";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const EditProduct = () => {
@@ -12,10 +13,15 @@ const EditProduct = () => {
     year: 0,
   });
   useEffect(() => {
-    fetch(`${SERVER_URL}/products/${id}`)
-      .then((res) => res.json())
-      .then((data) => setValues(data))
-      .catch((err) => console.log(err));
+    const fetchData = async () => {
+      try {
+        const product = await ApiClient(`products/${id}`);
+        setValues(product);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
   }, [id]);
 
   const handleEditValue = (e) => {
