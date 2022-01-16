@@ -5,14 +5,14 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const NewProduct = () => {
   const navigate = useNavigate();
   const [values, setValues] = useState({
-    name: "",
+    productName: "",
     price: 0,
     year: 0,
   });
 
   const handleValues = (e) => {
-    const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+    const { productName, value } = e.target;
+    setValues({ ...values, [productName]: value });
   };
 
   const handleAdd = (e) => {
@@ -33,16 +33,16 @@ const NewProduct = () => {
   return (
     <>
       <div>
-        <span>name</span>
+        <span>Product Name</span>
         <input
           type="text"
-          name="name"
-          value={values.name}
+          name="productName"
+          value={values.productName}
           onChange={handleValues}
         />
       </div>
       <div>
-        <span>price</span>
+        <span>Price</span>
         <input
           type="text"
           name="price"

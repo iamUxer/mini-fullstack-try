@@ -36,13 +36,13 @@ function Products() {
   };
 
   return (
-    <div>
+    <>
       <ul>
         {products.map((product) => {
           return (
-            <div key={`${product.id}-${product.name}`}>
-              <li key={`${product.id}-${product.name}`}>
-                {product.name} : {product.price}
+            <div key={`${product.id}-${product.productName}`}>
+              <li key={`${product.id}-${product.productName}`}>
+                {product.productName} : {product.price}
               </li>
               <button onClick={() => navigate(`/products/${product.id}/edit`)}>
                 edit
@@ -53,7 +53,7 @@ function Products() {
         })}
       </ul>
       <button onClick={() => navigate("/products/new")}>new</button>
-    </div>
+    </>
   );
 }
 

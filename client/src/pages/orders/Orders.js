@@ -1,7 +1,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Spin, Table } from "antd";
+import { Spin } from "antd";
+import StyledTable from "../../styled/StyledTable";
 import { ApiClient } from "../../utils";
 
 const Orders = () => {
@@ -22,7 +23,7 @@ const Orders = () => {
     fetchData();
   }, []);
 
-  console.log(orders);
+  console.log("orders:::", orders);
 
   const columns = [
     {
@@ -37,18 +38,28 @@ const Orders = () => {
       title: "Product",
       dataIndex: "product",
     },
+    {
+      title: "Price",
+      dataIndex: "price",
+    },
   ];
+
+  const pagination = {
+    pageSize: 5,
+  };
 
   return (
     <Spin tip="Loading..." spinning={loading}>
-      <Table
+      <StyledTable
         size="small"
         columns={columns}
         dataSource={orders.map((order) => {
           return {
+            key: `${order.id}-${order.product}`,
             id: order.id,
-            seller: order.seller?.nickname,
-            product: order.product?.name,
+            seller: order.seller,
+            product: order.product,
+            price: order.price,
           };
         })}
         onRow={(item) => {
@@ -56,6 +67,7 @@ const Orders = () => {
             onClick: () => navigate(`/orders/${item.id}`),
           };
         }}
+        pagination={pagination}
       />
     </Spin>
   );

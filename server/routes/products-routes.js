@@ -23,11 +23,11 @@ router.get("/products/:id", function (req, res) {
 
 //add a new item
 router.post("/products", function (req, res) {
-  const { name, price, year } = req.body;
+  const { productName, price, year } = req.body;
   const id = Math.max(...products.map((prd) => prd.id)) + 1;
   const newProduct = {
     id,
-    name,
+    productName,
     price,
     year,
   };
@@ -38,14 +38,14 @@ router.post("/products", function (req, res) {
 
 //edit item
 router.put("/products/:id", function (req, res) {
-  const { name, price, year } = req.body;
+  const { productName, price, year } = req.body;
   const id = parseInt(req.params.id);
   const productIndex = products.findIndex((prd) => prd.id === id);
 
   if (productIndex !== undefined) {
     products[productIndex] = {
       id,
-      name,
+      productName,
       price,
       year,
     };

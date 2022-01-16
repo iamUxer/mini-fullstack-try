@@ -5,16 +5,16 @@ const { orders, users, products } = db.data;
 
 const router = express.Router();
 
-console.log("orders", orders);
-
 router.get("/orders", function (req, res) {
+  console.log("orders", orders);
   const orderList = orders.map((order) => {
-    const seller = users.find((user) => user.id === order.sellerId);
-    const product = products.find((product) => product.id === order.productId);
+    // const seller = users.find((user) => user.id === order.sellerId);
+    // const product = products.find((product) => product.id === order.productId);
     return {
       id: order.id,
-      seller,
-      product,
+      seller: order.seller,
+      product: order.productName,
+      price: order.price,
     };
   });
 
@@ -32,16 +32,35 @@ router.get("/orders/:id", function (req, res) {
   console.log(order);
   if (order) {
     // 서버 사이드에서 데이터를 직접 가공해서 보내주기
-    const seller = users.find((user) => user.id === order.sellerId);
-    const product = products.find((product) => product.id === order.productId);
+    // const seller = users.find((user) => user.id === order.sellerId);
+    // const product = products.find((product) => product.id === order.productId);
+    // if (product) {
+    //   res.json({
+    //     id: order.id,
+    //     seller,
+    //     product,
+    //   });
+    // } else {
+    // }
     res.json({
-      id: order.id,
-      seller,
-      product,
+      ...order,
     });
   } else {
     res.send({ message: `This order(${id}) is not existed` });
   }
+});
+
+router.post("/orders/new", function (req, res) {
+  const resOrder = req.body;
+  const id = Math.max(...orders.map((order) => order.id)) + 1;
+
+  const newOrder = {
+    ...resOrder,
+    id: id,
+  };
+  orders.push(newOrder);
+  db.write();
+  res.json({ id });
 });
 
 export default router;

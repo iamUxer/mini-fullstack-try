@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
-
-import { Link } from "react-router-dom";
+import React, { useContext, useState, useCallback } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { Menu, Row, Col, Button } from "antd";
 import { HomeFilled, AppstoreFilled, DropboxOutlined } from "@ant-design/icons";
@@ -9,8 +9,6 @@ import Login from "../auth/Login";
 import Logout from "../auth/Logout";
 import Signup from "../auth/Signup";
 import { UserContext } from "../../App";
-
-const { SubMenu } = Menu;
 
 const StyledNavigationBar = styled.div`
   & .ant-col-10 {
@@ -27,10 +25,10 @@ const StyledNavigationBar = styled.div`
 
 const NavigationBar = () => {
   const [userInfo, setUserInfo] = useContext(UserContext);
-  const [current, setCurrent] = useState("Dashboard");
-
+  const location = useLocation();
+  const navigate = useNavigate();
   const handleClick = (e) => {
-    setCurrent(e.key);
+    navigate(`${e.key}`);
   };
 
   return (
@@ -39,20 +37,20 @@ const NavigationBar = () => {
         <Col span={14}>
           <Menu
             onClick={handleClick}
-            selectedKeys={[current]}
+            selectedKeys={location.pathname}
             mode="horizontal"
           >
-            <Menu.Item key="Dashboard" icon={<HomeFilled />}>
+            <Menu.Item key="/dashboard" icon={<HomeFilled />}>
               <Link to="/dashboard">
                 <a>Dashboard</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="Products" icon={<AppstoreFilled />}>
+            <Menu.Item key="/products" icon={<AppstoreFilled />}>
               <Link to="/products">
                 <a>Products</a>
               </Link>
             </Menu.Item>
-            <Menu.Item key="Orders" icon={<DropboxOutlined />}>
+            <Menu.Item key="/orders" icon={<DropboxOutlined />}>
               <Link to="/orders">
                 <a>Orders</a>
               </Link>
