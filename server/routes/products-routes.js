@@ -23,14 +23,13 @@ router.get("/products/:id", function (req, res) {
 
 //add a new item
 router.post("/products", function (req, res) {
-  const { productName, price, year } = req.body;
+  const product = req.body;
   const id = Math.max(...products.map((prd) => prd.id)) + 1;
   const newProduct = {
     id,
-    productName,
-    price,
-    year,
+    ...product,
   };
+  console.log(newProduct);
   products.push(newProduct);
   db.write();
   res.json({ id });

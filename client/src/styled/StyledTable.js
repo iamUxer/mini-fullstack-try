@@ -6,6 +6,13 @@ const CustomTable = styled(Table)`
   & .ant-table {
     height: 234px;
     border-bottom: 1px solid #f0f0f0;
+    background: #fcfcfc;
+    & .ant-table-container {
+      background: white;
+    }
+    & .ant-table-row {
+      cursor: default;
+    }
   }
   & .ant-pagination {
     display: flex;
@@ -13,8 +20,6 @@ const CustomTable = styled(Table)`
   }
 `;
 
-const StyledTable = ({ children, ...props }) => {
+export const CSTable = ({ children, ...props }) => {
   return <CustomTable {...props}>{children}</CustomTable>;
 };
-
-export default StyledTable;

@@ -2,27 +2,31 @@
   "products": [
     {
       "id": 1,
+      "sellerId": "a1234",
       "productName": "diablo",
       "price": 30000,
       "year": 2002
     },
     {
       "id": 2,
+      "sellerId": "a1234",
       "productName": "starcraft",
       "price": 40000,
       "year": 2001
     },
     {
       "id": 3,
+      "sellerId": "a1234",
       "productName": "supermario",
       "price": 42000,
       "year": 1990
     },
     {
       "id": 4,
-      "productName": "dream of house",
-      "price": 0,
-      "year": 2019
+      "productName": "Roadster",
+      "price": "500",
+      "year": "1990",
+      "sellerId": "a1234"
     }
   ],
   "users": [

@@ -31,15 +31,13 @@ const NavigationBar = () => {
     navigate(`${e.key}`);
   };
 
+  const pathname = "/" + location.pathname.split("/")[1];
+
   return (
     <StyledNavigationBar>
       <Row>
         <Col span={14}>
-          <Menu
-            onClick={handleClick}
-            selectedKeys={location.pathname}
-            mode="horizontal"
-          >
+          <Menu onClick={handleClick} selectedKeys={pathname} mode="horizontal">
             <Menu.Item key="/dashboard" icon={<HomeFilled />}>
               <Link to="/dashboard">
                 <a>Dashboard</a>

@@ -7,7 +7,7 @@ const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 const EditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [values, setValues] = useState({
+  const [product, setProduct] = useState({
     name: "",
     price: 0,
     year: 0,
@@ -16,7 +16,7 @@ const EditProduct = () => {
     const fetchData = async () => {
       try {
         const product = await ApiClient(`products/${id}`);
-        setValues(product);
+        setProduct(product);
       } catch (error) {
         console.log(error);
       }
@@ -26,8 +26,8 @@ const EditProduct = () => {
 
   const handleEditValue = (e) => {
     const { name, value } = e.target;
-    setValues({
-      ...values,
+    setProduct({
+      ...product,
       [name]: value,
     });
   };
@@ -35,7 +35,7 @@ const EditProduct = () => {
   const handleApply = (e) => {
     fetch(`${SERVER_URL}/products/${id}`, {
       method: "PUT",
-      body: JSON.stringify(values),
+      body: JSON.stringify(product),
       headers: {
         "Content-Type": "application/json",
       },
@@ -53,7 +53,7 @@ const EditProduct = () => {
         <input
           type="text"
           name="name"
-          value={values.name}
+          value={product.name}
           onChange={handleEditValue}
         />
       </div>
@@ -62,7 +62,7 @@ const EditProduct = () => {
         <input
           type="text"
           name="price"
-          value={values.price}
+          value={product.price}
           onChange={handleEditValue}
         />
       </div>
@@ -71,7 +71,7 @@ const EditProduct = () => {
         <input
           type="text"
           name="year"
-          value={values.year}
+          value={product.year}
           onChange={handleEditValue}
         />
       </div>

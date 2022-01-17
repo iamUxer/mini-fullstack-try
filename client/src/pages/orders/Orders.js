@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Spin } from "antd";
-import StyledTable from "../../styled/StyledTable";
+import { CSTable } from "../../styled/StyledTable";
 import { ApiClient } from "../../utils";
 
 const Orders = () => {
@@ -50,7 +50,7 @@ const Orders = () => {
 
   return (
     <Spin tip="Loading..." spinning={loading}>
-      <StyledTable
+      <CSTable
         size="small"
         columns={columns}
         dataSource={orders.map((order) => {

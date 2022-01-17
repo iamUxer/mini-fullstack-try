@@ -2,16 +2,15 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import { ApiClient } from "../../utils";
-import { Spin, Button, PageHeader, Descriptions } from "antd";
+import { Spin, PageHeader, Descriptions } from "antd";
 import { UserContext } from "../../App";
+import { CSBasicButton } from "../../styled/StyledButtons";
 
 const Order = () => {
-  const [userInfo, setUserInfo] = useContext(UserContext);
+  const [userInfo] = useContext(UserContext);
   const [order, setOrder] = useState({});
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  console.log("userInfo:::", userInfo);
-  console.log("order:::", order);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,9 +32,13 @@ const Order = () => {
         subTitle={order.seller}
         extra={[
           userInfo.id === order.sellerId && (
-            <Button type="primary" onClick={() => console.log("not yet")}>
+            <CSBasicButton
+              size="small"
+              type="primary"
+              onClick={() => console.log("not yet")}
+            >
               Edit
-            </Button>
+            </CSBasicButton>
           ),
         ]}
       />

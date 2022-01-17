@@ -1,20 +1,19 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Input, Avatar, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { UserContext } from "../../App";
 import { ApiClient } from "../../utils";
+import { CSBasicButton } from "../../styled/StyledButtons";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const { TextArea, Search } = Input;
 
 const NewOrder = () => {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useContext(UserContext);
+  const [userInfo] = useContext(UserContext);
   const [searchProduct, setSearchProduct] = useState("");
   const [newOrder, setNewOrder] = useState({});
-
-  console.log("newOrder", newOrder);
 
   const layout = {
     labelCol: { span: 8 },
@@ -63,6 +62,17 @@ const NewOrder = () => {
       });
   }, []);
 
+  const onChangeOrder = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setNewOrder({
+        ...newOrder,
+        [name]: value,
+      });
+    },
+    [newOrder]
+  );
+
   return (
     <Form
       name="neworder"
@@ -70,7 +80,6 @@ const NewOrder = () => {
       wrapperCol={layout.wrapperCol}
       initialValues={{ remember: true }}
       onFinish={onFinishHandle}
-      onFinishFailed={null}
       autoComplete="off"
     >
       <Avatar size="large" icon={<UserOutlined />} />
@@ -80,7 +89,7 @@ const NewOrder = () => {
       <Form.Item
         label="Product"
         name="product"
-        rules={[{ required: true, message: "Please input the product name." }]}
+        rules={[{ required: true, message: "Please input the order name." }]}
       >
         <Search
           placeholder="search product"
@@ -93,19 +102,9 @@ const NewOrder = () => {
       <Form.Item
         label="Price"
         name="price"
-        rules={[
-          { required: true, message: "Please input this product price." },
-        ]}
+        rules={[{ required: true, message: "Please input this order price." }]}
       >
-        <Input
-          value={newOrder.price}
-          onChange={(e) =>
-            setNewOrder({
-              ...newOrder,
-              price: e.target.value,
-            })
-          }
-        />
+        <Input value={newOrder.price} onChange={onChangeOrder} />
       </Form.Item>
       <Form.Item
         label="Description"
@@ -117,19 +116,17 @@ const NewOrder = () => {
         <TextArea
           autoSize={{ minRows: 2, maxRows: 6 }}
           value={newOrder.description}
-          onChange={(e) =>
-            setNewOrder({
-              ...newOrder,
-              description: e.target.value,
-            })
-          }
+          onChange={onChangeOrder}
         />
       </Form.Item>
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
+      <CSBasicButton
+        float={"right"}
+        size="small"
+        type="primary"
+        htmlType="submit"
+      >
+        Submit
+      </CSBasicButton>
     </Form>
   );
 };

@@ -1,59 +1,80 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Spin } from "antd";
 import { ApiClient } from "../../utils";
-const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+import { CSTable } from "../../styled/StyledTable";
+import { CSBasicButton } from "../../styled/StyledButtons";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
-      const products = await ApiClient(`products`);
       try {
+        const products = await ApiClient(`products`);
         setProducts(products);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
   }, []);
-  //1) useEffect는 첫 렌더링이 됐을때 최초 한번만 실행되고,
-  //4) 리렌더링이 됐지만 useEffect가 다시 실행되지는 않는다.
 
-  const handleDelete = (id) => {
-    fetch(`${SERVER_URL}/products/${id}`, {
-      method: "DELETE",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
-        //2) 삭제된 data로 state가 업데이트됐을때 리렌더링이 되기때문에
-        //3) 지금시점에서 product 업데이트가 일어나고 렌더링이 다시 된다음,
-      })
-      .catch((error) => console.log(error));
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Product",
+      dataIndex: "productName",
+      key: "productName",
+    },
+    {
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+    },
+  ];
+
+  const pagination = {
+    pageSize: 5,
   };
 
   return (
-    <>
-      <ul>
-        {products.map((product) => {
-          return (
-            <div key={`${product.id}-${product.productName}`}>
-              <li key={`${product.id}-${product.productName}`}>
-                {product.productName} : {product.price}
-              </li>
-              <button onClick={() => navigate(`/products/${product.id}/edit`)}>
-                edit
-              </button>
-              <button onClick={() => handleDelete(product.id)}>delete</button>
-            </div>
-          );
+    <Spin tip="Loading..." spinning={loading}>
+      <CSBasicButton
+        float={"right"}
+        size="small"
+        type="primary"
+        onClick={() => navigate("/products/new")}
+      >
+        New
+      </CSBasicButton>
+      <CSTable
+        size="small"
+        pagination={pagination}
+        columns={columns}
+        dataSource={products.map((product) => {
+          return {
+            key: `${product.id}-${product.productName}`,
+            id: product.id,
+            productName: product.productName,
+            price: product.price,
+          };
         })}
-      </ul>
-      <button onClick={() => navigate("/products/new")}>new</button>
-    </>
+        onRow={(item) => {
+          return {
+            onClick: () => navigate(`/products/${item.id}`),
+          };
+        }}
+      />
+    </Spin>
   );
 }
 
