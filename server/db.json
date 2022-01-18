@@ -97,6 +97,26 @@
       "seller": "lucky",
       "sellerId": "a1234",
       "description": "for SALE!!!"
+    },
+    {
+      "seller": "lucky",
+      "sellerId": "a1234",
+      "id": 7
+    },
+    {
+      "price": "111",
+      "description": "111",
+      "sellerId": "a1234",
+      "seller": "lucky",
+      "id": 8
+    },
+    {
+      "sellerId": "a1234",
+      "price": "3000",
+      "productName": "supermario",
+      "description": "왜 안돼??",
+      "seller": "lucky",
+      "id": 9
     }
   ]
 }

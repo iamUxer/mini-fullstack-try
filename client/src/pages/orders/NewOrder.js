@@ -15,10 +15,19 @@ const NewOrder = () => {
   const [searchProduct, setSearchProduct] = useState("");
   const [newOrder, setNewOrder] = useState({});
 
+  console.log("searchProduct:::", searchProduct);
+
+  console.log("newOrder:::", newOrder);
+
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
   };
+
+  useEffect(() => {
+    onChangeOrder({ target: { name: "productName", value: searchProduct } });
+    onChangeOrder({ target: { name: "price", value: newOrder.price } });
+  }, [searchProduct]);
 
   const onSearchHandle = useCallback(() => {
     const fetchData = async () => {
@@ -45,9 +54,9 @@ const NewOrder = () => {
     fetch(`${SERVER_URL}/orders/new`, {
       method: "POST",
       body: JSON.stringify({
+        sellerId: userInfo.id,
         ...newOrder,
         seller: userInfo.nickname,
-        sellerId: userInfo.id,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -57,15 +66,20 @@ const NewOrder = () => {
       .then((data) => {
         navigate(`/orders/${data.id}`);
       });
-  }, []);
+  }, [newOrder, userInfo]);
 
-  const onChangeOrder = useCallback((e) => {
-    const { name, value } = e.target;
-    setNewOrder({
-      ...newOrder,
-      // [name]: value,
-    });
-  }, []);
+  const onChangeOrder = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setNewOrder({
+        ...newOrder,
+        [name]: value,
+        productName: searchProduct,
+      });
+    },
+    [newOrder, searchProduct]
+  );
+  console.log("???", newOrder);
 
   return (
     <Form
@@ -87,7 +101,7 @@ const NewOrder = () => {
           name="productName"
           placeholder="search product"
           onSearch={onSearchHandle}
-          value={searchProduct}
+          value={newOrder.productName}
           onChange={(e) => setSearchProduct(e.target.value)}
         />
       </Form.Item>
@@ -97,12 +111,7 @@ const NewOrder = () => {
         name="price"
         rules={[{ required: true, message: "Please input this order price." }]}
       >
-        <Input
-          // placeholder={newOrder.price}
-          name="price"
-          value={newOrder.price}
-          onChange={onChangeOrder}
-        />
+        <Input name="price" value={newOrder.price} onChange={onChangeOrder} />
       </Form.Item>
       <Form.Item
         label="Description"
