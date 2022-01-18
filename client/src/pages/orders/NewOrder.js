@@ -1,6 +1,6 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Input, Avatar, Button } from "antd";
+import { Form, Input, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { UserContext } from "../../App";
 import { ApiClient } from "../../utils";
@@ -20,29 +20,26 @@ const NewOrder = () => {
     wrapperCol: { span: 16 },
   };
 
-  const onSearchHandle = useCallback(
-    (e) => {
-      const fetchData = async () => {
-        const products = await ApiClient("products");
-        const existedProduct = products.find(
-          (product) => product.name === searchProduct
-        );
-        console.log(existedProduct);
-        if (existedProduct) {
-          setNewOrder({
-            ...existedProduct,
-          });
-        } else {
-          setNewOrder({
-            ...newOrder,
-            productName: e.target.value,
-          });
-        }
-      };
-      fetchData();
-    },
-    [searchProduct, newOrder]
-  );
+  const onSearchHandle = useCallback(() => {
+    const fetchData = async () => {
+      const products = await ApiClient("products");
+      const existedProduct = products.find(
+        (product) => product.productName === searchProduct
+      );
+      console.log("existedProduct:::", existedProduct);
+      if (existedProduct) {
+        setNewOrder({
+          ...existedProduct,
+        });
+      } else {
+        setNewOrder({
+          ...newOrder,
+          productName: searchProduct,
+        });
+      }
+    };
+    fetchData();
+  }, [searchProduct, newOrder]);
 
   const onFinishHandle = useCallback(() => {
     fetch(`${SERVER_URL}/orders/new`, {
@@ -62,36 +59,32 @@ const NewOrder = () => {
       });
   }, []);
 
-  const onChangeOrder = useCallback(
-    (e) => {
-      const { name, value } = e.target;
-      setNewOrder({
-        ...newOrder,
-        [name]: value,
-      });
-    },
-    [newOrder]
-  );
+  const onChangeOrder = useCallback((e) => {
+    const { name, value } = e.target;
+    setNewOrder({
+      ...newOrder,
+      // [name]: value,
+    });
+  }, []);
 
   return (
     <Form
       name="neworder"
       labelCol={layout.labelCol}
       wrapperCol={layout.wrapperCol}
-      initialValues={{ remember: true }}
       onFinish={onFinishHandle}
-      autoComplete="off"
     >
       <Avatar size="large" icon={<UserOutlined />} />
       <Form.Item>
         <span>{userInfo.nickname}</span>
       </Form.Item>
       <Form.Item
-        label="Product"
-        name="product"
+        label="Product Name"
+        name="productName"
         rules={[{ required: true, message: "Please input the order name." }]}
       >
         <Search
+          name="productName"
           placeholder="search product"
           onSearch={onSearchHandle}
           value={searchProduct}
@@ -104,7 +97,12 @@ const NewOrder = () => {
         name="price"
         rules={[{ required: true, message: "Please input this order price." }]}
       >
-        <Input value={newOrder.price} onChange={onChangeOrder} />
+        <Input
+          // placeholder={newOrder.price}
+          name="price"
+          value={newOrder.price}
+          onChange={onChangeOrder}
+        />
       </Form.Item>
       <Form.Item
         label="Description"
@@ -114,6 +112,7 @@ const NewOrder = () => {
         ]}
       >
         <TextArea
+          name="description"
           autoSize={{ minRows: 2, maxRows: 6 }}
           value={newOrder.description}
           onChange={onChangeOrder}

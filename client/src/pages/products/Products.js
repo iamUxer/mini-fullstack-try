@@ -42,6 +42,18 @@ function Products() {
     },
   ];
 
+  const dataSource = () => {
+    const productsList = products.map((product) => {
+      return {
+        key: `${product.id}-${product.productName}`,
+        id: product.id,
+        productName: product.productName,
+        price: product.price,
+      };
+    });
+    return productsList;
+  };
+
   const pagination = {
     pageSize: 5,
   };
@@ -60,14 +72,7 @@ function Products() {
         size="small"
         pagination={pagination}
         columns={columns}
-        dataSource={products.map((product) => {
-          return {
-            key: `${product.id}-${product.productName}`,
-            id: product.id,
-            productName: product.productName,
-            price: product.price,
-          };
-        })}
+        dataSource={dataSource()}
         onRow={(item) => {
           return {
             onClick: () => navigate(`/products/${item.id}`),

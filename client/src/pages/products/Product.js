@@ -1,17 +1,17 @@
 import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
-import { Spin, Button, PageHeader, Descriptions } from "antd";
+import { Spin, PageHeader, Descriptions } from "antd";
 import { ApiClient } from "../../utils";
 import { UserContext } from "../../App";
-import { CSBasicButton, CSWrapButton } from "../../styled/StyledButtons";
+import { CSBasicButton } from "../../styled/StyledButtons";
 
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const Product = () => {
   const { id } = useParams();
   const [userInfo] = useContext(UserContext);
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 

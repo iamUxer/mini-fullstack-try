@@ -2,8 +2,9 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Spin } from "antd";
-import { CSTable } from "../../styled/StyledTable";
 import { ApiClient } from "../../utils";
+import { CSTable } from "../../styled/StyledTable";
+import { CSBasicButton } from "../../styled/StyledButtons";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -22,8 +23,6 @@ const Orders = () => {
     };
     fetchData();
   }, []);
-
-  console.log("orders:::", orders);
 
   const columns = [
     {
@@ -44,24 +43,37 @@ const Orders = () => {
     },
   ];
 
+  const dataSource = () => {
+    const ordersList = orders.map((order) => {
+      return {
+        key: `${order.id}-${order.product}`,
+        id: order.id,
+        seller: order.seller,
+        product: order.product,
+        price: order.price,
+      };
+    });
+    return ordersList;
+  };
+
   const pagination = {
     pageSize: 5,
   };
 
   return (
     <Spin tip="Loading..." spinning={loading}>
+      <CSBasicButton
+        float={"right"}
+        size="small"
+        type="primary"
+        onClick={() => navigate("/orders/new")}
+      >
+        New
+      </CSBasicButton>
       <CSTable
         size="small"
         columns={columns}
-        dataSource={orders.map((order) => {
-          return {
-            key: `${order.id}-${order.product}`,
-            id: order.id,
-            seller: order.seller,
-            product: order.product,
-            price: order.price,
-          };
-        })}
+        dataSource={dataSource()}
         onRow={(item) => {
           return {
             onClick: () => navigate(`/orders/${item.id}`),

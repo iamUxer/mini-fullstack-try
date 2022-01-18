@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Form, Input, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { UserContext } from "../../App";
-import { ApiClient } from "../../utils";
 import { CSBasicButton } from "../../styled/StyledButtons";
 const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
@@ -63,6 +62,7 @@ const NewProduct = () => {
       </Form.Item>
       <Form.Item
         label="Product Name"
+        name="productName"
         rules={[{ required: true, message: "Please input the product name." }]}
       >
         <Input
@@ -73,12 +73,14 @@ const NewProduct = () => {
       </Form.Item>
       <Form.Item
         label="Price"
+        name="price"
         rules={[{ required: true, message: "Please input the product price." }]}
       >
         <Input name="price" value={product.price} onChange={onChangeProduct} />
       </Form.Item>
       <Form.Item
         label="Produced Year"
+        name="year"
         rules={[
           {
             required: true,
@@ -87,6 +89,13 @@ const NewProduct = () => {
         ]}
       >
         <Input name="year" value={product.year} onChange={onChangeProduct} />
+      </Form.Item>
+      <Form.Item label="Description" name="description">
+        <TextArea
+          autoSize={{ minRows: 2, maxRows: 6 }}
+          value={product.description}
+          onChange={onChangeProduct}
+        />
       </Form.Item>
       <CSBasicButton
         float={"right"}

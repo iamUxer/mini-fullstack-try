@@ -37,7 +37,7 @@ router.post("/products", function (req, res) {
 
 //edit item
 router.put("/products/:id", function (req, res) {
-  const { productName, price, year } = req.body;
+  const { productName, price, year, sellerId } = req.body;
   const id = parseInt(req.params.id);
   const productIndex = products.findIndex((prd) => prd.id === id);
 
@@ -47,6 +47,7 @@ router.put("/products/:id", function (req, res) {
       productName,
       price,
       year,
+      sellerId,
     };
     db.write();
     res.json({ id });

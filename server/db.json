@@ -24,7 +24,7 @@
     {
       "id": 4,
       "productName": "Roadster",
-      "price": "500",
+      "price": 500,
       "year": "1990",
       "sellerId": "a1234"
     }

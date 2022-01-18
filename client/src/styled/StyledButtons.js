@@ -5,6 +5,9 @@ export const CSWrapButton = styled.div`
   display: flex;
   justify-content: ${(props) => props.align};
   align-items: center;
+  & .ant-btn + .ant-btn {
+    margin-left: 10px;
+  }
 `;
 
 export const CSBasicButton = styled(Button)`
