@@ -11,13 +11,14 @@ const { TextArea, Search } = Input;
 
 const NewOrder = () => {
   const navigate = useNavigate();
+  const [form] = Form.useForm();
   const [userInfo] = useContext(UserContext);
   const [searchProduct, setSearchProduct] = useState("");
-  const [newOrder, setNewOrder] = useState({});
-
-  console.log("searchProduct:::", searchProduct);
-
-  console.log("newOrder:::", newOrder);
+  const [newOrder, setNewOrder] = useState({
+    productName: "",
+    price: null,
+    description: "",
+  });
 
   const layout = {
     labelCol: { span: 8 },
@@ -26,7 +27,6 @@ const NewOrder = () => {
 
   useEffect(() => {
     onChangeOrder({ target: { name: "productName", value: searchProduct } });
-    onChangeOrder({ target: { name: "price", value: newOrder.price } });
   }, [searchProduct]);
 
   const onSearchHandle = useCallback(() => {
@@ -35,20 +35,24 @@ const NewOrder = () => {
       const existedProduct = products.find(
         (product) => product.productName === searchProduct
       );
-      console.log("existedProduct:::", existedProduct);
       if (existedProduct) {
         setNewOrder({
           ...existedProduct,
         });
+        form.setFieldsValue({
+          price: existedProduct.price,
+          description: existedProduct.description,
+          year: existedProduct.year,
+        });
       } else {
-        setNewOrder({
+        setNewOrder((newOrder) => ({
           ...newOrder,
           productName: searchProduct,
-        });
+        }));
       }
     };
     fetchData();
-  }, [searchProduct, newOrder]);
+  }, [newOrder, searchProduct]);
 
   const onFinishHandle = useCallback(() => {
     fetch(`${SERVER_URL}/orders/new`, {
@@ -56,6 +60,7 @@ const NewOrder = () => {
       body: JSON.stringify({
         sellerId: userInfo.id,
         ...newOrder,
+        price: Number(newOrder.price),
         seller: userInfo.nickname,
       }),
       headers: {
@@ -71,71 +76,74 @@ const NewOrder = () => {
   const onChangeOrder = useCallback(
     (e) => {
       const { name, value } = e.target;
-      setNewOrder({
+      setNewOrder((newOrder) => ({
         ...newOrder,
         [name]: value,
         productName: searchProduct,
-      });
+      }));
     },
     [newOrder, searchProduct]
   );
-  console.log("???", newOrder);
 
   return (
-    <Form
-      name="neworder"
-      labelCol={layout.labelCol}
-      wrapperCol={layout.wrapperCol}
-      onFinish={onFinishHandle}
-    >
-      <Avatar size="large" icon={<UserOutlined />} />
-      <Form.Item>
-        <span>{userInfo.nickname}</span>
-      </Form.Item>
-      <Form.Item
-        label="Product Name"
-        name="productName"
-        rules={[{ required: true, message: "Please input the order name." }]}
+    <>
+      <Form
+        name="neworder"
+        labelCol={layout.labelCol}
+        wrapperCol={layout.wrapperCol}
+        onFinish={onFinishHandle}
+        form={form}
       >
-        <Search
+        <Avatar size="large" icon={<UserOutlined />} />
+        <Form.Item name="nickname">
+          <span>{userInfo.nickname}</span>
+        </Form.Item>
+        <Form.Item
+          label="Product Name"
           name="productName"
-          placeholder="search product"
-          onSearch={onSearchHandle}
-          value={newOrder.productName}
-          onChange={(e) => setSearchProduct(e.target.value)}
-        />
-      </Form.Item>
-
-      <Form.Item
-        label="Price"
-        name="price"
-        rules={[{ required: true, message: "Please input this order price." }]}
-      >
-        <Input name="price" value={newOrder.price} onChange={onChangeOrder} />
-      </Form.Item>
-      <Form.Item
-        label="Description"
-        name="description"
-        rules={[
-          { required: true, message: "Please input explane this product." },
-        ]}
-      >
-        <TextArea
+          rules={[{ required: true, message: "Please input the order name." }]}
+        >
+          <Search
+            name="productName"
+            placeholder="search product"
+            onSearch={onSearchHandle}
+            value={newOrder.productName}
+            onChange={(e) => setSearchProduct(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item
+          label="Price"
+          name="price"
+          rules={[
+            { required: true, message: "Please input this order price." },
+          ]}
+        >
+          <Input value={newOrder.price} onChange={onChangeOrder} />
+        </Form.Item>
+        <Form.Item
+          label="Description"
           name="description"
-          autoSize={{ minRows: 2, maxRows: 6 }}
-          value={newOrder.description}
-          onChange={onChangeOrder}
-        />
-      </Form.Item>
-      <CSBasicButton
-        float={"right"}
-        size="small"
-        type="primary"
-        htmlType="submit"
-      >
-        Submit
-      </CSBasicButton>
-    </Form>
+          rules={[
+            { required: true, message: "Please input explane this product." },
+          ]}
+        >
+          <TextArea
+            name="description"
+            autoSize={{ minRows: 2, maxRows: 6 }}
+            value={newOrder.description}
+            onChange={onChangeOrder}
+          />
+        </Form.Item>
+        <CSBasicButton
+          float={"right"}
+          size="small"
+          type="primary"
+          htmlType="submit"
+        >
+          Submit
+        </CSBasicButton>
+      </Form>
+    </>
   );
 };
 

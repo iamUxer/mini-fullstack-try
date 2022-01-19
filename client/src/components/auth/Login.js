@@ -9,7 +9,6 @@ const Login = () => {
   // 2) 유저정보가 업데이트 되면 리랜더링이 일어나고 커스텀 훅(UserContext)이 실행된다.
   const [user, setUser] = useState("");
   const [error, setError] = useState(null);
-  console.log("error!!", error);
 
   useEffect(() => {
     if (!userInfo.id) {

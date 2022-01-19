@@ -99,24 +99,32 @@
       "description": "for SALE!!!"
     },
     {
-      "seller": "lucky",
       "sellerId": "a1234",
-      "id": 7
-    },
-    {
-      "price": "111",
-      "description": "111",
-      "sellerId": "a1234",
-      "seller": "lucky",
-      "id": 8
-    },
-    {
-      "sellerId": "a1234",
-      "price": "3000",
+      "id": 7,
       "productName": "supermario",
-      "description": "왜 안돼??",
-      "seller": "lucky",
-      "id": 9
+      "price": 38000,
+      "year": 1990,
+      "description": "for sale!!!",
+      "seller": "lucky"
+    },
+    {
+      "sellerId": "a1234",
+      "id": 8,
+      "productName": "Roadster",
+      "price": 500,
+      "year": "1990",
+      "description": "눈누난나",
+      "seller": "lucky"
+    },
+    {
+      "sellerId": "a1234",
+      "id": 9,
+      "productName": "diablo",
+      "price": 30000,
+      "year": 2002,
+      "": "300",
+      "description": "사세요!",
+      "seller": "lucky"
     }
   ]
 }

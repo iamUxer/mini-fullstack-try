@@ -6,7 +6,6 @@ const { orders, users, products } = db.data;
 const router = express.Router();
 
 router.get("/orders", function (req, res) {
-  console.log("orders", orders);
   const orderList = orders.map((order) => {
     // const seller = users.find((user) => user.id === order.sellerId);
     // const product = products.find((product) => product.id === order.productId);
@@ -29,7 +28,6 @@ router.get("/orders", function (req, res) {
 router.get("/orders/:id", function (req, res) {
   const id = parseInt(req.params.id);
   const order = orders.find((order) => order.id === id);
-  console.log(order);
   if (order) {
     // 서버 사이드에서 데이터를 직접 가공해서 보내주기
     // const seller = users.find((user) => user.id === order.sellerId);
